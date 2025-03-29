@@ -1,0 +1,82 @@
+.user-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.user-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  justify-content: space-between;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: transform 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.userContainer {
+  background-color: white;
+  padding: 5px;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  cursor: pointer;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+}
+
+.user-icon {
+  margin-right: 16px;
+  color: #007bff;
+}
+
+.user-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.user-info p {
+  margin: 4px 0;
+  color: #666;
+}
+
+.user-actions {
+  margin-left: auto;
+}
+
+.ban-button,
+.unban-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
+}
+
+.ban-button {
+  background-color: #ff4d4f;
+  color: white;
+}
+
+.ban-button:hover {
+  background-color: #d9363e;
+}
+
+.unban-button {
+  background-color: #52c41a;
+  color: white;
+}
+
+.unban-button:hover {
+  background-color: #389e0d;
+}

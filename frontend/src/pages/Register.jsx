@@ -11,7 +11,7 @@ function Register() {
     email: "",
     password: "",
     password2: "",
-    role: "admin",
+    role: "user",
     tel:"",
     banned:false
   });

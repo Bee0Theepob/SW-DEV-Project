@@ -13,17 +13,20 @@ function Header() {
   };
   return (
     <header className="header">
-      <div className="logo">
-        <Link to="/">Support Desk</Link>
-      </div>
+      <h1 className="logo">
+        <Link to="/">RenCar</Link>
+      </h1>
       <ul>
         {user ? (
-          <li>
-            <button className="btn" onClick={onLogout}>
-              <FaSignOutAlt />
-              Logout
-            </button>
-          </li>
+          <>
+            <li>you are {user.role}</li>
+            <li>
+              <button className="btn" onClick={onLogout}>
+                <FaSignOutAlt />
+                Logout
+              </button>
+            </li>
+          </>
         ) : (
           <>
             <li>

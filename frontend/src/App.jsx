@@ -4,7 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ViewRental from "./pages/ViewRental";
+import ProviderList from "./pages/provider/ProviderList"
 import Register from "./pages/Register";
+import UserManagement from "./pages/user/UserManagement";
 function App() {
   return (
     <>
@@ -15,6 +18,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/providerList" element={<ProviderList/>}></Route>
+            <Route path="/viewRental" element={<ViewRental/>}></Route>
+            <Route path="/userManagement" element={<UserManagement/>}></Route>
           </Routes>
         </div>
       </Router>
