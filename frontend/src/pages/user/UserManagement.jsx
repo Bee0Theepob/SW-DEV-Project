@@ -27,7 +27,7 @@ function UserManagement() {
 
   return (
     <>
-      <div>User Management</div>
+      <h2>User Management</h2>
       <div className="user-list">
         {loading ? (
           <div>Loading...</div>
