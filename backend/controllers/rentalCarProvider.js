@@ -214,9 +214,7 @@ exports.createRentalCarProvider = async (req, res, next) => {
   res.status(201).json({ success: true, data: rentalCarProvider });
 };
 
-// @desc    Update rental car provider
-// @route   PUT /api/v1/rentalcarproviders/:id
-// @access  Private
+
 exports.updateRentalCarProvider = async (req, res, next) => {
   try {
     const rentalCarProvider = await RentalCarProvider.findByIdAndUpdate(
@@ -244,7 +242,6 @@ exports.deleteRentalCarProvider = async (req, res, next) => {
     if (!rentalCarProvider) {
       return res.status(404).json({ success: false, message: `Rental Car Provider not found with id of ${req.params.id}`});
     }
-    await RentalCar.deleteMany({ company: req.params.id }); // Delete all rental cars belonging to this provider
     await RentalCarProvider.deleteOne({ _id: req.params.id });
 
     res.status(200).json({ success: true, data: {} });

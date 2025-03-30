@@ -24,7 +24,7 @@ function ViewRental() {
           <div>
             <h2>Rental Car Providers</h2>
             {providers.length > 0 ? (
-              <div>
+              <div className="providerList">
                 {providers.map((provider) => (
                   <div className="provider-card">
                     <h2 className="provider-name">{provider.name}</h2>

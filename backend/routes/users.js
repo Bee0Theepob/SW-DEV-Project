@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { protect, authorize } = require("../middleware/auth");
 const {
-getUsers
+getUsers,
+toggleBan
 } = require("../controllers/users");
 
 // Re-route to rentalCars router
@@ -11,7 +12,10 @@ getUsers
 // Routes for RentalCarProviders
 router
   .route("/")
-  .get(protect, authorize("admin"),getUsers)
+  .get(protect, authorize("admin"),getUsers);
+router
+  .route("/:id")
+  .put(protect,authorize("admin"),toggleBan);
 
 
 module.exports = router;
