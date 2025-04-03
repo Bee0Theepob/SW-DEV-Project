@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getProviders } from "../../features/provider/services";
-import "./ProviderCard.css";
+import ProviderCard from "./ProviderCard";
+
 function ViewRental() {
   const [providers, setProviders] = useState([]); // State to store providers
   const [loading, setLoading] = useState(true); // State to show loading status
@@ -24,17 +25,9 @@ function ViewRental() {
           <div>
             <h2>Rental Car Providers</h2>
             {providers.length > 0 ? (
-              <div className="providerList">
+              <div className='providerList'>
                 {providers.map((provider) => (
-                  <div className="provider-card">
-                    <h2 className="provider-name">{provider.name}</h2>
-                    <p className="provider-detail">
-                      <strong>Address:</strong> {provider.address}
-                    </p>
-                    <p className="provider-detail">
-                      <strong>Telephone:</strong> {provider.tel}
-                    </p>
-                  </div>
+                  <ProviderCard provider={provider} />
                 ))}
               </div>
             ) : (

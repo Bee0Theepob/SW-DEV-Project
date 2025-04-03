@@ -18,8 +18,9 @@ const sendTokenResponse = (user, statusCode, res) => {
     _id: user._id,
     name: user.name,
     email: user.email,
-    role : user.role,
+    role: user.role,
     token,
+    loyaltyPoint: user.loyaltyPoint,
   });
 };
 
@@ -35,7 +36,8 @@ exports.register = async (req, res, next) => {
       tel,
       role,
       password,
-      banned
+      banned,
+      loyaltyPoint: 0,
     });
 
     // const token = user.getSignedJwtToken();
@@ -64,8 +66,8 @@ exports.login = async (req, res, next) => {
   if (!user) {
     return res.status(400).json({ success: false, msg: "Invalid credentials" });
   }
-  if(user.banned){
-    console.log("sfsdfsdfsdsdf",546654)
+  if (user.banned) {
+    console.log("sfsdfsdfsdsdf", 546654);
     return res.status(400).json({ success: false, msg: "you are banned" });
   }
 
