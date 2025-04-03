@@ -8,6 +8,6 @@
 - [ ] The system shall allow the admin to view any rental car bookings.
 - [ ] The system shall allow the admin to edit any rental car bookings.
 - [ ] The system shall allow the admin to delete any rental car bookings.
-- [ ] The system shall allow the admin to ban any user who break the rules
+- [X] The system shall allow the admin to ban any user who break the rules
 - [ ] The system shall filter the car provider list by the user's specified condition
 - [ ] The system shall allow users to earn loyalty points for each car booking, which can be redeemed for discounts on future bookings.
