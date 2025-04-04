@@ -1,0 +1,73 @@
+.appt-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.appt-card:hover {
+  transform: scale(1.02);
+}
+
+.apptContainer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.appt-icon {
+  background: #f3f3f3;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.appt-info {
+  flex: 1;
+}
+
+.appt-info h3 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.appt-info p {
+  color: #666;
+  font-size: 14px;
+}
+
+.buttonContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #45a049;
+}
+
+.delete-btn:hover {
+  background: #d32f2f;
+}

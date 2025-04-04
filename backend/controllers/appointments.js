@@ -6,10 +6,12 @@ const User = require("../models/User");
 //@access Private
 exports.getAppointments = async (req, res, next) => {
   let query;
+  console.log(req.user._id, "bbbbbbbbbbbbbbbbbbbb");
   //General users can see only their appointments!
   if (req.user.role !== "admin") {
-    query = Appointment.find({ user: req.user.id }).populate({
-      path: "RentalCarProvider",
+    query = Appointment.find({ user: req.user._id }).populate({
+      path: "provider",
+      model: "RentalCarProvider",
       select: "name address price tel",
     });
   } else {
@@ -17,7 +19,8 @@ exports.getAppointments = async (req, res, next) => {
     // if (req.params.hospitalId) {
     //   console.log(req.params.hospitalId);
     query = Appointment.find().populate({
-      path: "RentalCarProvider",
+      path: "provider",
+      model: "RentalCarProvider",
       select: "name address price tel",
     });
   }
