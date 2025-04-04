@@ -3,10 +3,11 @@ import { getProviders } from "../../features/provider/services";
 import ProviderCard from "./ProviderCard";
 
 function ViewRental() {
-  const [providers, setProviders] = useState([]); // State to store providers
-  const [loading, setLoading] = useState(true); // State to show loading status
-  const [providerName, setProviderName] = useState(""); // State to store provider name
-  const [providerAddress, setProviderAddress] = useState(""); // State to store provider address
+  const [providers, setProviders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [providerName, setProviderName] = useState("");
+  const [providerAddress, setProviderAddress] = useState("");
+  const [isPriceAscending, setPriceIsAscending] = useState(1); // 1 = ASC, -1 = DESC
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -28,12 +29,19 @@ function ViewRental() {
     }
   };
 
-  // กรอง providers ตามค่าที่พิมพ์
-  const filteredProviders = providers.filter(
-    (provider) =>
-      provider.name.toLowerCase().includes(providerName.toLowerCase()) &&
-      provider.address.toLowerCase().includes(providerAddress.toLowerCase())
-  );
+  // ฟังก์ชันเปลี่ยนลำดับการเรียง
+  const handleSortChange = () => {
+    setPriceIsAscending((prev) => prev * -1);
+  };
+
+  // กรองและเรียงลำดับ providers
+  const sortedProviders = [...providers]
+    .filter(
+      (provider) =>
+        provider.name.toLowerCase().includes(providerName.toLowerCase()) &&
+        provider.address.toLowerCase().includes(providerAddress.toLowerCase())
+    )
+    .sort((a, b) => (a.price - b.price) * isPriceAscending);
 
   return (
     <div>
@@ -61,9 +69,14 @@ function ViewRental() {
             placeholder='Search by address'
           />
 
-          {filteredProviders.length > 0 ? (
+          {/* ปุ่มสลับการเรียงลำดับ */}
+          <button onClick={handleSortChange}>
+            Sort by Price {isPriceAscending === 1 ? "▲" : "▼"}
+          </button>
+
+          {sortedProviders.length > 0 ? (
             <div className='providerList'>
-              {filteredProviders.map((provider) => (
+              {sortedProviders.map((provider) => (
                 <ProviderCard key={provider.id} provider={provider} />
               ))}
             </div>
