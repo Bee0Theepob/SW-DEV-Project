@@ -6,8 +6,7 @@ import "./ProviderCard.css";
 function ProviderCard({ provider }) {
   const { user, loyaltyPoint } = useSelector((state) => state.auth);
   const [apptDate, setApptDate] = useState("");
-  console.log(useSelector((state) => state.auth));
-  console.log("loyaltyPoint: ", user.loyaltyPoint);
+
   const rentThisCar = async () => {
     if (!apptDate) {
       alert("Please select a date.");
