@@ -3,11 +3,19 @@ import { getProviders } from "../../features/provider/services";
 import ProviderCard from "./ProviderCard";
 
 function ViewRental() {
-
   const totalPage = 4;
 
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // 1. แยก input ที่ผู้ใช้กรอก กับตัวที่ใช้ fetch จริง
+  const [searchInputs, setSearchInputs] = useState({
+    providerName: "",
+    providerAddress: "",
+    minPrice: "",
+    maxPrice: "",
+  });
+
   const [filters, setFilters] = useState({
     providerName: "",
     providerAddress: "",
@@ -17,7 +25,7 @@ function ViewRental() {
     currentPage: 1,
   });
 
-  // Fetch providers when filters change, including currentPage
+  // 2. fetch เมื่อ filters เปลี่ยนเท่านั้น
   useEffect(() => {
     const fetchProviders = async () => {
       setLoading(true);
@@ -26,25 +34,21 @@ function ViewRental() {
       setLoading(false);
     };
     fetchProviders();
-  }, [filters]); // Only re-fetch when filters (currentPage, minPrice, maxPrice, etc.) change
+  }, [filters]);
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prev) => ({
+    setSearchInputs((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPage; i++) {
-    pageNumbers.push(i);
-  }
-
   const submitSearch = () => {
     setFilters((prev) => ({
       ...prev,
-      currentPage: 1, // Reset to page 1 when new search is made
+      ...searchInputs,
+      currentPage: 1, // reset page
     }));
   };
 
@@ -62,6 +66,11 @@ function ViewRental() {
     }));
   };
 
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPage; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div>
       {loading ? (
@@ -70,40 +79,40 @@ function ViewRental() {
         <div>
           <h2>Rental Car Providers</h2>
 
-          <label htmlFor="providerName">Provider Name</label>
+          <label htmlFor='providerName'>Provider Name</label>
           <input
-            type="text"
-            name="providerName"
-            value={filters.providerName}
-            onChange={handleChange}
-            placeholder="Search by name"
+            type='text'
+            name='providerName'
+            value={searchInputs.providerName}
+            onChange={handleInputChange}
+            placeholder='Search by name'
           />
 
-          <label htmlFor="providerAddress">Provider Address</label>
+          <label htmlFor='providerAddress'>Provider Address</label>
           <input
-            type="text"
-            name="providerAddress"
-            value={filters.providerAddress}
-            onChange={handleChange}
-            placeholder="Search by address"
+            type='text'
+            name='providerAddress'
+            value={searchInputs.providerAddress}
+            onChange={handleInputChange}
+            placeholder='Search by address'
           />
 
-          <label htmlFor="minPrice">Min Price</label>
+          <label htmlFor='minPrice'>Min Price</label>
           <input
-            type="number"
-            name="minPrice"
-            value={filters.minPrice}
-            onChange={handleChange}
-            placeholder="Min price"
+            type='number'
+            name='minPrice'
+            value={searchInputs.minPrice}
+            onChange={handleInputChange}
+            placeholder='Min price'
           />
 
-          <label htmlFor="maxPrice">Max Price</label>
+          <label htmlFor='maxPrice'>Max Price</label>
           <input
-            type="number"
-            name="maxPrice"
-            value={filters.maxPrice}
-            onChange={handleChange}
-            placeholder="Max price"
+            type='number'
+            name='maxPrice'
+            value={searchInputs.maxPrice}
+            onChange={handleInputChange}
+            placeholder='Max price'
           />
 
           <button onClick={handleSortChange}>
@@ -113,7 +122,7 @@ function ViewRental() {
           <button onClick={submitSearch}>Search</button>
 
           {providers.length > 0 ? (
-            <div className="providerList">
+            <div className='providerList'>
               {providers.map((provider) => (
                 <ProviderCard key={provider.id} provider={provider} />
               ))}
@@ -129,14 +138,14 @@ function ViewRental() {
               </button>
             )}
 
-            {/* Display page numbers */}
-            <div className="pageNumbers">
+            <div className='pageNumbers'>
               {pageNumbers.map((pageNumber) => (
                 <button
                   key={pageNumber}
                   onClick={() => handlePageChange(pageNumber)}
-                  className={filters.currentPage === pageNumber ? "active" : ""}
-                >
+                  className={
+                    filters.currentPage === pageNumber ? "active" : ""
+                  }>
                   {pageNumber}
                 </button>
               ))}

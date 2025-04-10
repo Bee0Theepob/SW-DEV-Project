@@ -1,26 +1,46 @@
 import { FaCalendarAlt } from "react-icons/fa";
 import { format } from "date-fns";
-import { deleteAppt } from "../../features/appointment/service";
+import { deleteAppt, updateAppt } from "../../features/appointment/service";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import "./AppointmentCard.css";
 
 function ApptCard({ apptData, setIsDeleted }) {
   const { user } = useSelector((state) => state.auth);
-  // console.log("Appointment Data:", apptData);
-  // const handleEdit = () => {
-  //   // Logic to handle editing the appointment
-  //   console.log("Edit appointment:", apptData);
+  const [oldDate, setOldDate] = useState(apptData.apptDate);
+  console.log(apptData);
+  console.log("ApptCard oldDate:", apptData.apptDate);
+  // console.log("ApptCard oldDate:", oldDate);
+  useEffect(() => {
+    if (apptData && apptData.apptDate) {
+      setOldDate(apptData.apptDate);
+    }
+  }, [apptData]);
 
-  // }
+  const [isEditing, setIsEditing] = useState(false);
+  const [newDate, setNewDate] = useState(apptData.apptDate);
 
   const handleDelete = async () => {
-    // Logic to handle deleting the appointment
     console.log("Delete appointment:", apptData);
-    // Call the delete function from the service
-    const response = await deleteAppt(user.token, apptData._id);
-    //   // Optionally, you can refresh the appointment list after deletion
-    // fetchAppts(); // Refresh the appointment list to reflect changes
+    await deleteAppt(user.token, apptData._id);
     setIsDeleted(true);
+  };
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await updateAppt(user.token, apptData._id, {
+        apptDate: newDate,
+      });
+      console.log("Updated appointment:", response);
+      setIsEditing(false);
+      setOldDate(newDate); // Update the date in the parent component
+    } catch (err) {
+      console.error("Error updating appointment:", err);
+    }
   };
 
   return (
@@ -31,10 +51,26 @@ function ApptCard({ apptData, setIsDeleted }) {
         </div>
         <div className='appt-info'>
           <h3>{apptData.provider?.name}</h3>
-          <p>Date: {format(new Date(apptData.apptDate), "PPP")}</p>
+          {!isEditing ? (
+            <p>Date: {oldDate && format(new Date(oldDate), "PPP")}</p>
+          ) : (
+            <input
+              type='date'
+              value={newDate.slice(0, 10)}
+              onChange={(e) => setNewDate(e.target.value)}
+            />
+          )}
           <p>Provider: {apptData.provider?.name}</p>
           <div className='buttonContainer'>
-            <button className='edit-btn'>Edit</button>
+            {!isEditing ? (
+              <button className='edit-btn' onClick={handleEditToggle}>
+                Edit
+              </button>
+            ) : (
+              <button className='edit-btn' onClick={handleSave}>
+                Save
+              </button>
+            )}
             <button className='delete-btn' onClick={handleDelete}>
               Delete
             </button>
