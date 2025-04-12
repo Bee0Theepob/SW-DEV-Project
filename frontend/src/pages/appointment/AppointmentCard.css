@@ -1,69 +1,75 @@
-.appt-card {
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.appt-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
   padding: 20px;
-  margin: 10px;
-  transition: transform 0.2s ease-in-out;
 }
 
-.appt-card:hover {
-  transform: scale(1.02);
-}
-
-.apptContainer {
+/* Compact card */
+.appt-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   display: flex;
-  align-items: center;
-  gap: 15px;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
 }
 
 .appt-icon {
-  background: #f3f3f3;
-  padding: 15px;
-  border-radius: 50%;
+  align-self: flex-start;
+  margin-bottom: 10px;
 }
 
 .appt-info {
+  font-size: 0.95rem;
   flex: 1;
 }
 
-.appt-info h3 {
+.appt-info h3,
+.appt-info h4 {
+  margin: 6px 0 10px;
+  font-size: 1.1rem;
   color: #333;
-  margin-bottom: 5px;
 }
 
 .appt-info p {
-  color: #666;
-  font-size: 14px;
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.provider-info p {
+  margin-bottom: 4px;
 }
 
 .buttonContainer {
   margin-top: 10px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
 }
 
-.edit-btn {
-  background: #4caf50;
-  color: white;
+.edit-btn,
+.delete-btn {
+  flex: 1;
+  padding: 6px 12px;
   border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.edit-btn {
+  background-color: #4caf50;
+  color: white;
 }
 
 .delete-btn {
-  background: #f44336;
+  background-color: #f44336;
   color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
 }
-
 .edit-btn:hover {
   background: #45a049;
 }

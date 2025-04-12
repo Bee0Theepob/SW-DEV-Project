@@ -6,31 +6,19 @@ const User = require("../models/User");
 //@access Private
 exports.getAppointments = async (req, res, next) => {
   let query;
-  console.log(req.user._id, "bbbbbbbbbbbbbbbbbbbb");
-  //General users can see only their appointments!
+
   if (req.user.role !== "admin") {
-    query = Appointment.find({ user: req.user._id }).populate({
-      path: "provider",
-      model: "RentalCarProvider",
-      select: "name address price tel",
-    });
+    query = Appointment.find({ user: req.user._id }).populate(
+      "provider",
+      "name address price tel"
+    ).populate("user","name");
   } else {
-    //If you are an admin, you can see all!
-    // if (req.params.hospitalId) {
-    //   console.log(req.params.hospitalId);
-    query = Appointment.find().populate({
-      path: "provider",
-      model: "RentalCarProvider",
-      select: "name address price tel",
-    });
+    query = Appointment.find().populate(
+      "provider",
+      "name address price tel"
+    ).populate("user","name");
   }
-  // else {
-  //   query = Appointment.find().populate({
-  //     path: "hospital",
-  //     select: "name province tel",
-  //   });
-  // }
-  //   }
+
   try {
     const appointments = await query;
     res.status(200).json({
@@ -39,13 +27,15 @@ exports.getAppointments = async (req, res, next) => {
       data: appointments,
     });
   } catch (err) {
-    console.log(err.stack);
-    return res.status(500).json({
+    console.error(err.stack);
+    res.status(500).json({
       success: false,
       message: "Cannot find Appointment",
     });
   }
 };
+
+
 
 //@desc GET single appointment
 //@route GET /api/v1/appointments/:id

@@ -32,7 +32,7 @@ function ViewRental() {
     }
   }, [isDeleted]);
 
-  console.log(appointments);
+  console.log(appointments,5555555);
 
   return (
     <>
@@ -40,7 +40,7 @@ function ViewRental() {
       {appointments.length === 0 && (
         <div className='no-appointments'>No appointments found.</div>
       )}
-      <div className='user-list'>
+      <div className='appt-list-container'>
         {loading ? (
           <div>Loading...</div>
         ) : (

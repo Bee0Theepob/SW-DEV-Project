@@ -30,9 +30,6 @@ export const addAppointment = async (authToken, apptData) => {
 };
 
 export const getAppt = async (authToken, user) => {
-  console.log("fdgghjkl");
-  console.log("fdgghjkl");
-
   try {
     const response = await axios.get(API_URL, {
       headers: {

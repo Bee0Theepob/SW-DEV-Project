@@ -31,12 +31,5 @@ const RentalCarProviderSchema = new mongoose.Schema(
   }
 );
 
-// Virtual field to populate related rental cars
-RentalCarProviderSchema.virtual("rentalCars", {
-  ref: "RentalCar",
-  localField: "_id",
-  foreignField: "company",
-  justOne: false,
-});
 
 module.exports = mongoose.model("RentalCarProvider", RentalCarProviderSchema);

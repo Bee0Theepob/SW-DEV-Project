@@ -8,27 +8,21 @@ import "./AppointmentCard.css";
 function ApptCard({ apptData, setIsDeleted }) {
   const { user } = useSelector((state) => state.auth);
   const [oldDate, setOldDate] = useState(apptData.apptDate);
-  console.log(apptData);
-  console.log("ApptCard oldDate:", apptData.apptDate);
-  // console.log("ApptCard oldDate:", oldDate);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newDate, setNewDate] = useState(apptData.apptDate);
+
   useEffect(() => {
     if (apptData && apptData.apptDate) {
       setOldDate(apptData.apptDate);
     }
   }, [apptData]);
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [newDate, setNewDate] = useState(apptData.apptDate);
-
   const handleDelete = async () => {
-    console.log("Delete appointment:", apptData);
     await deleteAppt(user.token, apptData._id);
     setIsDeleted(true);
   };
 
-  const handleEditToggle = () => {
-    setIsEditing(!isEditing);
-  };
+  const handleEditToggle = () => setIsEditing(!isEditing);
 
   const handleSave = async () => {
     try {
@@ -37,7 +31,7 @@ function ApptCard({ apptData, setIsDeleted }) {
       });
       console.log("Updated appointment:", response);
       setIsEditing(false);
-      setOldDate(newDate); // Update the date in the parent component
+      setOldDate(newDate);
     } catch (err) {
       console.error("Error updating appointment:", err);
     }
@@ -49,31 +43,46 @@ function ApptCard({ apptData, setIsDeleted }) {
         <div className='appt-icon'>
           <FaCalendarAlt size={40} color='#4CAF50' />
         </div>
+
         <div className='appt-info'>
-          <h3>{apptData.provider?.name}</h3>
+          <h3>📅 Appointment Info</h3>
+
+          <p><strong>👤 User:</strong> {apptData.user?.name || "Unknown User"}</p>
+
           {!isEditing ? (
-            <p>Date: {oldDate && format(new Date(oldDate), "PPP")}</p>
+            <p>
+              <strong>📆 Appt Date:</strong>{" "}
+              {oldDate && format(new Date(oldDate), "PPP")}
+            </p>
           ) : (
-            <input
-              type='date'
-              value={newDate.slice(0, 10)}
-              onChange={(e) => setNewDate(e.target.value)}
-            />
+            <div>
+              <label><strong>✏️ New Date:</strong></label>
+              <input
+                type='date'
+                value={newDate.slice(0, 10)}
+                onChange={(e) => setNewDate(e.target.value)}
+              />
+            </div>
           )}
-          <p>Provider: {apptData.provider?.name}</p>
+
+          <h4>🚗 Provider Info</h4>
+          {apptData.provider ? (
+            <div className='provider-info'>
+              <p><strong>🏢 Name:</strong> {apptData.provider.name}</p>
+              <p><strong>📍 Address:</strong> {apptData.provider.address}</p>
+              <p><strong>📞 Tel:</strong> {apptData.provider.tel}</p>
+            </div>
+          ) : (
+            <p style={{ color: "red" }}>⚠️ No provider data found.</p>
+          )}
+
           <div className='buttonContainer'>
             {!isEditing ? (
-              <button className='edit-btn' onClick={handleEditToggle}>
-                Edit
-              </button>
+              <button className='edit-btn' onClick={handleEditToggle}>Edit</button>
             ) : (
-              <button className='edit-btn' onClick={handleSave}>
-                Save
-              </button>
+              <button className='edit-btn' onClick={handleSave}>Save</button>
             )}
-            <button className='delete-btn' onClick={handleDelete}>
-              Delete
-            </button>
+            <button className='delete-btn' onClick={handleDelete}>Delete</button>
           </div>
         </div>
       </div>

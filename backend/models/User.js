@@ -49,6 +49,10 @@ const UserSchema = new mongoose.Schema({
     default: 0,
     maxvalue: 50,
   },
+  
+},{
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
 });
 
 UserSchema.pre("save", async function (next) {
