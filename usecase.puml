@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+
+actor "User" as user
+actor "Admin" as admin
+
+rectangle "System Boundary" {
+  usecase "Register" as register
+  usecase "Login" as login
+  usecase "Logout" as logout
+  usecase "Browse Providers" as browse
+  usecase "Book Appointment" as book
+  usecase "View My Appointments" as viewApps
+  usecase "Update/Cancel Appointment" as manageApp
+  usecase "Manage Providers" as manageProviders
+  usecase "Ban/Unban Users" as manageUsers
+  usecase "Update Loyalty Points" as loyalty
+  usecase "View All Appointments" as allAppt
+
+  user --> register
+  user --> login
+  user --> logout
+  user --> browse
+  user --> book
+  user --> viewApps
+  user --> manageApp
+
+  admin --> manageProviders
+  admin --> manageUsers
+  admin --> manageApp
+  admin --> allAppt
+
+  book .> browse : includes
+  loyalty .> book : extends
+}
+@enduml
