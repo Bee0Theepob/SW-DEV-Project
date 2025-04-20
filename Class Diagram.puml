@@ -1,0 +1,31 @@
+@startuml
+class User {
+  - name: String
+  - email: String
+  - tel: String
+  - role: String = "user"
+  - banned: Boolean = false
+  - password: String
+  - resetPasswordToken: String
+  - resetPasswordExpire: Date
+  - createdAt: Date
+  - loyaltyPoint: Number = 0
+
+  + getSignedJwtToken(): String
+  + matchPassword(enteredPassword: String): Boolean
+}
+
+class Appointment {
+  - apptDate: Date
+  - createdAt: Date
+}
+
+class RentalCarProvider {
+  - name: String
+  - address: String
+  - tel: String
+  - price: Number
+}
+User "1" --> "0..*" Appointment : books >
+RentalCarProvider "1" --> "0..*" Appointment : provides >
+@enduml

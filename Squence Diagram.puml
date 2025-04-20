@@ -1,0 +1,20 @@
+@startuml
+actor User
+entity "UserModel" as User
+entity "RentalCarProviderController" as ProviderController
+entity "AppointmentController" as AppointmentController
+entity "AppointmentModel" as Appointment
+
+User -> ProviderController: getRentalCarProviders()
+ProviderController -> User: return list of providers
+User -> AppointmentController: addAppointment(apptDate, userId, providerId)
+AppointmentController -> AppointmentController: validate data
+alt success
+    AppointmentController -> Appointment: create appointment(apptDate, userId, providerId)
+    Appointment -> AppointmentController: return appointment details
+    AppointmentController -> User: return success response
+    User -> User : update loyalty points
+else error
+    AppointmentController -> User: return error response
+end
+@enduml
