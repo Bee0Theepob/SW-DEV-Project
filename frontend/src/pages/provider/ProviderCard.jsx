@@ -4,7 +4,7 @@ import { addAppointment } from "../../features/appointment/service";
 import "./ProviderCard.css";
 
 function ProviderCard({ provider }) {
-  const { user, loyaltyPoint } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const [apptDate, setApptDate] = useState("");
 
   const rentThisCar = async () => {
@@ -50,9 +50,9 @@ function ProviderCard({ provider }) {
         {user.loyaltyPoint === 0 && <strong>Price: </strong> && provider.price}
         {user.loyaltyPoint > 0 && (
           <>
-            <strong>Price: </strong>
-            <s>{provider.price}</s>
-            {(provider.price * (100 - user.loyaltyPoint)) / 100}
+            <strong>Price: &nbsp;&nbsp;</strong>
+            <s className='red'>{provider.price}</s>&nbsp;&nbsp;
+            <span className='green'>{provider.discountedPrice}</span>
           </>
         )}
       </p>

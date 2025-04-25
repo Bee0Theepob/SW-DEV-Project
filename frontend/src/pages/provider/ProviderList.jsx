@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { getProviders } from "../../features/provider/services";
 import ProviderCard from "./ProviderCard";
+import { useSelector } from "react-redux";
 
 function ViewRental() {
   const totalPage = 4;
-
+  const { user } = useSelector((state) => state.auth);
   const [providers, setProviders] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  console.log("user", user);
 
   // 1. แยก input ที่ผู้ใช้กรอก กับตัวที่ใช้ fetch จริง
   const [searchInputs, setSearchInputs] = useState({
@@ -23,12 +26,12 @@ function ViewRental() {
     minPrice: "",
     maxPrice: "",
     currentPage: 1,
+    loyaltyPoint: user.loyaltyPoint,
   });
 
   // 2. fetch เมื่อ filters เปลี่ยนเท่านั้น
   useEffect(() => {
     const fetchProviders = async () => {
-      setLoading(true);
       const data = await getProviders(filters);
       setProviders(data);
       setLoading(false);
