@@ -38,7 +38,7 @@ exports.register = async (req, res, next) => {
       tel,
       role,
       password,
-      banned,
+      banned: false,
       loyaltyPoint: 0,
     });
 

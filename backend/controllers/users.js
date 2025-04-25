@@ -25,15 +25,15 @@ exports.updateUser = async (req, res, next) => {
     if (!user1) {
       return res.status(400).json({ success: false, msg: "not found" });
     }
-    const loyaltyPoint = user1.loyaltyPoint;
-    let addLoyaltyPoint = 0;
-    if (req.body.banned) {
-      addLoyaltyPoint = 0;
-    } else {
-      addLoyaltyPoint = 1;
-    }
+    // const loyaltyPoint = user1.loyaltyPoint;
+    // let addLoyaltyPoint = 0;
+    // if (req.body.banned) {
+    //   addLoyaltyPoint = 0;
+    // } else {
+    //   addLoyaltyPoint = 1;
+    // }
 
-    req.body.loyaltyPoint = loyaltyPoint + addLoyaltyPoint;
+    // req.body.loyaltyPoint = loyaltyPoint + addLoyaltyPoint;
 
     const user2 = await User.findByIdAndUpdate(req.params.id, req.body);
 

@@ -1,4 +1,5 @@
 const RentalCarProvider = require("../models/RentalCarProvider");
+const User = require("../models/User");
 
 // @desc    Get all rental car providers
 // @route   GET /api/v1/rentalcarproviders
@@ -12,7 +13,7 @@ exports.getRentalCarProviders = async (req, res, next) => {
 
     // Remove special query fields
     const removeFields = ["select", "sort", "page", "limit"];
-    removeFields.forEach(param => delete reqQuery[param]);
+    removeFields.forEach((param) => delete reqQuery[param]);
 
     // Build MongoDB filter object
     const filter = {};
@@ -27,11 +28,24 @@ exports.getRentalCarProviders = async (req, res, next) => {
       filter.address = { $regex: req.query.address, $options: "i" };
     }
 
+    console.log(req.query);
+
     // 💰 Price range filter (e.g. ?minPrice=500&maxPrice=1500)
-    if (req.query.minPrice || req.query.maxPrice) {
-      filter.price = {};
-      if (req.query.minPrice) filter.price.$gte = Number(req.query.minPrice);
-      if (req.query.maxPrice) filter.price.$lte = Number(req.query.maxPrice);
+    if (req.query.loyaltyPoint !== 100) {
+      if (
+        (req.query.minPrice * 100) / (100 - req.query.loyaltyPoint) ||
+        (req.query.maxPrice * 100) / (100 - req.query.loyaltyPoint)
+      ) {
+        filter.price = {};
+        if (req.query.minPrice)
+          filter.price.$gte = Number(
+            (req.query.minPrice * 100) / (100 - req.query.loyaltyPoint)
+          );
+        if (req.query.maxPrice)
+          filter.price.$lte = Number(
+            (req.query.maxPrice * 100) / (100 - req.query.loyaltyPoint)
+          );
+      }
     }
 
     // Build query
@@ -71,20 +85,26 @@ exports.getRentalCarProviders = async (req, res, next) => {
       pagination.prev = { page: page - 1, limit };
     }
 
+    const responseData = rentalCarProviders.map((provider) => ({
+      ...provider._doc,
+      discountedPrice: Math.ceil(
+        (provider.price * (100 - req.query.loyaltyPoint)) / 100
+      ),
+    }));
+
+    console.log(responseData);
+
     res.status(200).json({
       success: true,
       count: rentalCarProviders.length,
       pagination,
-      data: rentalCarProviders,
+      data: responseData,
     });
-
   } catch (err) {
     console.error(err);
     res.status(400).json({ success: false, error: err.message });
   }
 };
-
-
 
 // @desc    Get single rental car provider
 // @route   GET /api/v1/rentalcarproviders/:id
@@ -109,7 +129,6 @@ exports.createRentalCarProvider = async (req, res, next) => {
   const rentalCarProvider = await RentalCarProvider.create(req.body);
   res.status(201).json({ success: true, data: rentalCarProvider });
 };
-
 
 exports.updateRentalCarProvider = async (req, res, next) => {
   try {
@@ -136,7 +155,10 @@ exports.deleteRentalCarProvider = async (req, res, next) => {
     const rentalCarProvider = await RentalCarProvider.findById(req.params.id);
 
     if (!rentalCarProvider) {
-      return res.status(404).json({ success: false, message: `Rental Car Provider not found with id of ${req.params.id}`});
+      return res.status(404).json({
+        success: false,
+        message: `Rental Car Provider not found with id of ${req.params.id}`,
+      });
     }
     await RentalCarProvider.deleteOne({ _id: req.params.id });
 
