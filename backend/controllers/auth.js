@@ -69,7 +69,6 @@ exports.login = async (req, res, next) => {
     return res.status(400).json({ success: false, msg: "Invalid credentials" });
   }
   if (user.banned) {
-    console.log("sfsdfsdfsdsdf", 546654);
     return res.status(400).json({ success: false, msg: "you are banned" });
   }
 

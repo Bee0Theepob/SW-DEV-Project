@@ -6,7 +6,7 @@ entity "AppointmentController" as AppointmentController
 entity "AppointmentModel" as Appointment
 
 User -> ProviderController: getRentalCarProviders()
-ProviderController -> User: return list of providers
+ProviderController -> User: return list of providers with discounts
 User -> AppointmentController: addAppointment(apptDate, userId, providerId)
 AppointmentController -> AppointmentController: validate data
 alt success

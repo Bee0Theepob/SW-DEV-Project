@@ -28,8 +28,6 @@ exports.getRentalCarProviders = async (req, res, next) => {
       filter.address = { $regex: req.query.address, $options: "i" };
     }
 
-    console.log(req.query);
-
     // 💰 Price range filter (e.g. ?minPrice=500&maxPrice=1500)
     if (req.query.loyaltyPoint !== 100) {
       if (
@@ -91,8 +89,6 @@ exports.getRentalCarProviders = async (req, res, next) => {
         (provider.price * (100 - req.query.loyaltyPoint)) / 100
       ),
     }));
-
-    console.log(responseData);
 
     res.status(200).json({
       success: true,
