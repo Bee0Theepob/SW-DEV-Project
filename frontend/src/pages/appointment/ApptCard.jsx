@@ -47,7 +47,9 @@ function ApptCard({ apptData, setIsDeleted }) {
         <div className='appt-info'>
           <h3>📅 Appointment Info</h3>
 
-          <p><strong>👤 User:</strong> {apptData.user?.name || "Unknown User"}</p>
+          <p>
+            <strong>👤 User:</strong> {apptData.user?.name || "Unknown User"}
+          </p>
 
           {!isEditing ? (
             <p>
@@ -56,7 +58,9 @@ function ApptCard({ apptData, setIsDeleted }) {
             </p>
           ) : (
             <div>
-              <label><strong>✏️ New Date:</strong></label>
+              <label>
+                <strong>✏️ New Date:</strong>
+              </label>
               <input
                 type='date'
                 value={newDate.slice(0, 10)}
@@ -68,9 +72,15 @@ function ApptCard({ apptData, setIsDeleted }) {
           <h4>🚗 Provider Info</h4>
           {apptData.provider ? (
             <div className='provider-info'>
-              <p><strong>🏢 Name:</strong> {apptData.provider.name}</p>
-              <p><strong>📍 Address:</strong> {apptData.provider.address}</p>
-              <p><strong>📞 Tel:</strong> {apptData.provider.tel}</p>
+              <p>
+                <strong>🏢 Name:</strong> {apptData.provider.name}
+              </p>
+              <p>
+                <strong>📍 Address:</strong> {apptData.provider.address}
+              </p>
+              <p>
+                <strong>📞 Tel:</strong> {apptData.provider.tel}
+              </p>
             </div>
           ) : (
             <p style={{ color: "red" }}>⚠️ No provider data found.</p>
@@ -78,11 +88,17 @@ function ApptCard({ apptData, setIsDeleted }) {
 
           <div className='buttonContainer'>
             {!isEditing ? (
-              <button className='edit-btn' onClick={handleEditToggle}>Edit</button>
+              <button className='edit-btn' onClick={handleEditToggle}>
+                Edit
+              </button>
             ) : (
-              <button className='edit-btn' onClick={handleSave}>Save</button>
+              <button className='edit-btn' onClick={handleSave}>
+                Save
+              </button>
             )}
-            <button className='delete-btn' onClick={handleDelete}>Delete</button>
+            <button className='delete-btn' onClick={handleDelete}>
+              Delete
+            </button>
           </div>
         </div>
       </div>

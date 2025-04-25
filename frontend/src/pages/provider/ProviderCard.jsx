@@ -13,6 +13,11 @@ function ProviderCard({ provider }) {
       return;
     }
 
+    if (new Date(apptDate) < new Date()) {
+      alert("Booking date is invalid.");
+      return;
+    }
+
     const apptData = {
       user: user._id,
       provider: provider._id,

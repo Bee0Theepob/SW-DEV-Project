@@ -8,15 +8,13 @@ exports.getAppointments = async (req, res, next) => {
   let query;
 
   if (req.user.role !== "admin") {
-    query = Appointment.find({ user: req.user._id }).populate(
-      "provider",
-      "name address price tel"
-    ).populate("user","name");
+    query = Appointment.find({ user: req.user._id })
+      .populate("provider", "name address price tel")
+      .populate("user", "name");
   } else {
-    query = Appointment.find().populate(
-      "provider",
-      "name address price tel"
-    ).populate("user","name");
+    query = Appointment.find()
+      .populate("provider", "name address price tel")
+      .populate("user", "name");
   }
 
   try {
@@ -34,8 +32,6 @@ exports.getAppointments = async (req, res, next) => {
     });
   }
 };
-
-
 
 //@desc GET single appointment
 //@route GET /api/v1/appointments/:id
@@ -88,6 +84,15 @@ exports.addAppointment = async (req, res, next) => {
       });
     }
     console.log(req.body);
+    const today = new Date(Date.now());
+    const apptDate = new Date(req.body.apptDate);
+    // console.log(today, "today", apptDate, "apptdate");
+    if (new Date(req.body.apptDate) < today) {
+      return res.status(400).json({
+        success: false,
+        message: `Booking date is invalid`,
+      });
+    }
     const appointment = await Appointment.create(req.body);
 
     const user1 = await User.findById(req.body.user);
@@ -99,11 +104,10 @@ exports.addAppointment = async (req, res, next) => {
     const updatedPointData = { loyaltyPoint: loyaltyPoint };
 
     const user2 = await User.findByIdAndUpdate(req.body.user, updatedPointData);
-    console.log(user2, "fsdgfhgjhm,njkm.");
     if (!user2) {
       return res.status(400).json({ success: false, msg: "not found" });
     }
-    res.status(200).json({ success: true, data: appointment });
+    res.status(201).json({ success: true, data: appointment });
   } catch (err) {
     console.log(err.stack);
     return res

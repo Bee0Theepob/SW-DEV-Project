@@ -18,6 +18,8 @@ const sendTokenResponse = (user, statusCode, res) => {
     _id: user._id,
     name: user.name,
     email: user.email,
+    tel: user.tel,
+    banned: user.banned,
     role: user.role,
     token,
     loyaltyPoint: user.loyaltyPoint,
