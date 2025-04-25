@@ -30,12 +30,26 @@ function ViewRental() {
   });
 
   // 2. fetch เมื่อ filters เปลี่ยนเท่านั้น
+  const fetchProviders = async () => {
+    const response = await fetch(`http://localhost:5000/api/v1/auth/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    const latestUser = await response.json();
+
+    console.log("latestUser", latestUser);
+    const data = await getProviders({
+      ...filters,
+      loyaltyPoint: latestUser.data.loyaltyPoint,
+    });
+    setProviders(data);
+    setLoading(false);
+  };
   useEffect(() => {
-    const fetchProviders = async () => {
-      const data = await getProviders(filters);
-      setProviders(data);
-      setLoading(false);
-    };
     fetchProviders();
   }, [filters]);
 
@@ -127,7 +141,11 @@ function ViewRental() {
           {providers.length > 0 ? (
             <div className='providerList'>
               {providers.map((provider) => (
-                <ProviderCard key={provider.id} provider={provider} />
+                <ProviderCard
+                  key={provider.id}
+                  provider={provider}
+                  fetchProviders={fetchProviders}
+                />
               ))}
             </div>
           ) : (

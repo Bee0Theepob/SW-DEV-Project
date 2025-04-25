@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { addAppointment } from "../../features/appointment/service";
 import "./ProviderCard.css";
 
-function ProviderCard({ provider }) {
+function ProviderCard({ provider, fetchProviders }) {
   const { user } = useSelector((state) => state.auth);
   const [apptDate, setApptDate] = useState("");
 
@@ -28,6 +28,7 @@ function ProviderCard({ provider }) {
       const response = await addAppointment(user.token, apptData);
       if (response.success) {
         alert("Car rented successfully!");
+        fetchProviders(); // Refresh the provider list after booking
       } else {
         alert(`Failed to rent car: ${response.statusText}`);
       }
